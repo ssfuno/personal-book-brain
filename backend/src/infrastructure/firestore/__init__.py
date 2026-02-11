@@ -1,0 +1,1 @@
+"""Firestore infrastructure components."""

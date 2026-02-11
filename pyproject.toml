@@ -1,0 +1,11 @@
+[project]
+name = "personal-book-brain-root"
+version = "0.1.0"
+description = "Development tools for Personal Book Brain"
+requires-python = ">=3.13"
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "pre-commit>=4.1.0",
+]

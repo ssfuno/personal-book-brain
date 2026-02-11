@@ -1,0 +1,35 @@
+fail_fast: true
+
+repos:
+  - repo: https://github.com/astral-sh/uv-pre-commit
+    rev: 0.9.4
+    hooks:
+      - id: uv-lock
+        # Ensure uv lock runs for backend project despite being triggered from root
+        args: ["--project", "backend"]
+        files: ^backend/(pyproject\.toml|uv\.lock)$
+
+  - repo: local
+    hooks:
+      - id: ruff-format
+        name: Ruff Format (Backend)
+        # Run ruff format via uv in backend project context, targeting backend directory
+        entry: uv run --frozen --project backend ruff format backend
+        language: system
+        types: [python]
+        files: ^backend/
+        pass_filenames: false
+      - id: ruff
+        name: Ruff (Backend)
+        # Run ruff check via uv in backend project context, targeting backend directory
+        entry: uv run --frozen --project backend ruff check backend --fix --exit-non-zero-on-fix
+        types: [python]
+        language: system
+        files: ^backend/
+        pass_filenames: false
+      - id: uv-lock-check
+        name: Check uv.lock is up to date (Backend)
+        entry: uv lock --check --project backend
+        language: system
+        files: ^backend/(pyproject\.toml|uv\.lock)$
+        pass_filenames: false
